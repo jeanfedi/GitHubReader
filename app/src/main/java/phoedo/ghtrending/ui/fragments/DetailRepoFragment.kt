@@ -10,9 +10,9 @@ import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_detail_repo.*
 import phoedo.ghtrending.R
 import phoedo.ghtrending.model.GHRepoItem
+import phoedo.ghtrending.networking.NetworkManager
 import phoedo.ghtrending.ui.activities.BaseActivity
 import phoedo.ghtrending.utils.picasso.CircleTransform
 
@@ -36,33 +36,43 @@ class DetailRepoFragment : Fragment() {
     @BindView(R.id.profileIcon)
     lateinit var profileIcon: ImageView
 
+    @BindView(R.id.readmeContent)
+    lateinit var readmeContent: TextView
+
     var repoDetails: GHRepoItem? = null;
+    val networkManager = NetworkManager()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val v = inflater.inflate(R.layout.fragment_detail_repo, container, false)
-        ButterKnife.bind(this,v)
+        ButterKnife.bind(this, v)
 
-        if (arguments.containsKey(BaseActivity.EXTRAOBJECTKEY)){
+        if (arguments.containsKey(BaseActivity.EXTRAOBJECTKEY)) {
             var extraObject = arguments.getSerializable(BaseActivity.EXTRAOBJECTKEY);
-            if (extraObject is GHRepoItem){
+            if (extraObject is GHRepoItem) {
                 repoDetails = extraObject;
+                activity.setTitle(repoDetails?.name)
             }
         }
 
         userLabel.setText(repoDetails?.owner?.login)
         nameLabel.setText(repoDetails?.name)
-        starsLabel.setText(resources.getString(R.string.stars_label,repoDetails?.stargazers_count))
-        forksLabel.setText(resources.getString(R.string.forks_label,repoDetails?.forks_count))
+        starsLabel.setText(resources.getString(R.string.stars_label, repoDetails?.stargazers_count))
+        forksLabel.setText(resources.getString(R.string.forks_label, repoDetails?.forks_count))
+
 
         Picasso.with(context)
                 .load(repoDetails?.owner?.avatar_url)
                 .transform(CircleTransform())
                 .into(profileIcon)
 
+        networkManager.getRepoReadme(repoDetails!!, object : NetworkManager.RepoReadMeListener {
+            override fun onRepoReadMeReceved(readme: String?) {
+                readmeContent.setText(readme)
+            }
+        })
+
         return v;
-
-
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">@color/textGray</color>
-    <color name="colorPrimaryDark">@color/textDarkGray</color>
+    <color name="colorPrimaryDark">@color/textGray</color>
     <color name="colorAccent">@color/appBackground</color>
 
     <color name="textBlack">#000000</color>

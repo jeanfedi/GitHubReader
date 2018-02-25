@@ -1,5 +1,6 @@
 package phoedo.ghtrending.networking
 
+import android.util.Base64
 import android.util.Log
 import phoedo.ghtrending.model.GHRepoItem
 import phoedo.ghtrending.model.GHRepoResponse
@@ -10,6 +11,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
+import java.nio.charset.Charset
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -51,7 +53,7 @@ class NetworkManager {
             }, failure = { t ->
                 hasNext = false;
                 isLoading = false
-                Log.d("NetworkManager", t.localizedMessage);
+                Log.d(NetworkManager::class.simpleName, t.localizedMessage);
                 listener?.onReposReceived(null)
 
             })
@@ -64,13 +66,12 @@ class NetworkManager {
             val call = ghServicesManager.getRepoReadme(repo.owner.login, repo.name);
             call.enqueue(success = { response ->
                 isLoading = false
-                val readMeString = response.body()?.content
+                val readMeString = Base64.decode(response.body()?.content, Base64.DEFAULT).toString(Charset.defaultCharset());
                 listener?.onRepoReadMeReceved(readMeString)
             }, failure = { t ->
                 isLoading = false
-                Log.d("NetworkManager", t.localizedMessage);
+                Log.d(NetworkManager::class.simpleName, t.localizedMessage);
                 listener?.onRepoReadMeReceved(null)
-
             })
         }
     }

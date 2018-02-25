@@ -1,21 +1,10 @@
 package phoedo.ghtrending
 
-import android.util.Log
 import junit.framework.Assert
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
-import org.powermock.modules.junit4.PowerMockRunnerDelegate
-
 import phoedo.ghtrending.model.GHRepoItem
-import phoedo.ghtrending.networking.GHSevices
 import phoedo.ghtrending.networking.NetworkManager
-import phoedo.ghtrending.networking.enqueue
-import java.text.SimpleDateFormat
-import java.util.*
 import java.util.concurrent.CountDownLatch
-import kotlin.collections.ArrayList
 
 /**
  *
