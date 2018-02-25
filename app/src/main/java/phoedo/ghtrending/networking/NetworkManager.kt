@@ -55,9 +55,7 @@ class NetworkManager {
             }, failure = { t ->
                 hasNext = false;
                 isLoading = false
-                if (t != null) {
-                    Log.d("NetworkManager", t.localizedMessage);
-                }
+                Log.d("NetworkManager", t.localizedMessage);
                 listener?.onReposReceived(null)
 
             })

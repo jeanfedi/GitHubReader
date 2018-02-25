@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">GHTrending</string>
+    <string name="title_activity_list_repo">ListRepoActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="readme_title">Readme.md</string>
+
+    <string name="stars_label">%d Stars</string>
+    <string name="forks_label">%d Forks</string>
+
 </resources>
