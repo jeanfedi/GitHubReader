@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/textGray</color>
+    <color name="colorPrimaryDark">@color/textDarkGray</color>
+    <color name="colorAccent">@color/appBackground</color>
+
+    <color name="textBlack">#000000</color>
+    <color name="textGray">#aeb5ba</color>
+    <color name="textDarkGray">#607b88</color>
+    <color name="textOrange">#fa5730</color>
+    <color name="appBackground">#ffffff</color>
+    <color name="mdBackground">#f7f7f7</color>
+
+
+</resources>

@@ -51,8 +51,33 @@ class GHRepoItem(
         val notifications_url: String,
         val labels_url: String,
         val releases_url: String,
-        val deployments_url: String
-):Serializable
+        val deployments_url: String,
+        val pushed_at: String?,
+        val git_url: String?,
+        val ssh_url: String?,
+        val clone_url: String?,
+        val svn_url: String?,
+        val homepage: String?,
+        val size: Int?,
+        val stargazers_count: Int?,
+        val watchers_count: Int?,
+        val language: String?,
+        val has_issues: Boolean?,
+        val has_projects: Boolean?,
+        val has_downloads: Boolean?,
+        val has_wiki: Boolean?,
+        val has_pages: Boolean?,
+        val forks_count: Int?,
+        val mirror_url: Any?,
+        val archived: Boolean?,
+        val open_issues_count: Int?,
+        val license: License?,
+        val forks: Int?,
+        val open_issues: Int?,
+        val watchers: Int?,
+        val default_branch: String?,
+        val score: Double?
+) : Serializable
 
 class Owner(
         val login: String,
@@ -72,7 +97,13 @@ class Owner(
         val received_events_url: String,
         val type: String,
         val site_admin: Boolean
-):Serializable
+) : Serializable
 
 
+data class License(
+        val key: String?,
+        val name: String?,
+        val spdx_id: String?,
+        val url: String?
+) : Serializable
 
