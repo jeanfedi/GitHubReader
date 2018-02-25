@@ -14,7 +14,7 @@ import phoedo.ghtrending.model.GHRepoItem
 /**
  * Created by phoedo on 24/02/18.
  */
-class GHRecycleListAdapter(private val context: Context, private val listener: GHItemSelectedListener) : RecyclerView.Adapter<GHRecycleListAdapter.ViewHolder>() {
+class GHRecycleListAdapter(private val context: Context, private val listener: GHRecyclerViewListener) : RecyclerView.Adapter<GHRecycleListAdapter.ViewHolder>() {
     var items = mutableListOf<GHRepoItem>();
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
@@ -25,7 +25,10 @@ class GHRecycleListAdapter(private val context: Context, private val listener: G
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         holder?.populate(items[position])
-        holder?.itemView?.setOnClickListener(View.OnClickListener { listener.onItemSelected(items[position]) })
+        holder?.itemView?.setOnClickListener(View.OnClickListener { listener.onItemSelected(items[position], holder) })
+        if (position == items.size - 1) {
+            listener.onEndScroll();
+        }
     }
 
     override fun getItemCount(): Int {
@@ -35,6 +38,11 @@ class GHRecycleListAdapter(private val context: Context, private val listener: G
 
     fun addNewItems(list: List<GHRepoItem>) {
         items.addAll(list)
+        notifyDataSetChanged()
+    }
+
+    fun clearData() {
+        items = ArrayList<GHRepoItem>();
         notifyDataSetChanged()
     }
 
@@ -54,13 +62,14 @@ class GHRecycleListAdapter(private val context: Context, private val listener: G
 
         fun populate(item: GHRepoItem) {
             nameLabel.setText(item.name)
-            starsLabel.setText(context.resources.getString(R.string.stars_label,item.stargazers_count))
+            starsLabel.setText(context.resources.getString(R.string.stars_label, item.stargazers_count))
             descriptionLabel.setText(item.description)
         }
     }
 
-    interface GHItemSelectedListener {
-        fun onItemSelected(item: GHRepoItem)
+    interface GHRecyclerViewListener {
+        fun onItemSelected(item: GHRepoItem, holder: ViewHolder)
+        fun onEndScroll()
     }
 
 

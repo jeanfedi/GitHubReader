@@ -1,15 +1,9 @@
 package phoedo.ghtrending.networking
 
+import android.util.Base64
 import android.util.Log
 import phoedo.ghtrending.model.GHRepoItem
-import phoedo.ghtrending.model.GHRepoResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Query
+import java.nio.charset.Charset
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -24,11 +18,14 @@ class NetworkManager {
 
     var page = 1;
     var hasNext = true;
+    private var query: String? = null;
+
     private var isLoading = false;
 
 
     fun getReposList(listener: ReposListListener?) {
-        this.getReposList(1, listener);
+        page = 1
+        this.getReposList(page, listener)
     }
 
     fun getNextPage(listener: ReposListListener?) {
@@ -37,13 +34,17 @@ class NetworkManager {
         }
     }
 
+
     fun getReposList(page: Int, listener: ReposListListener?) {
         if (!isLoading) {
             isLoading = true
-            val call = ghServicesManager.getRepositoriesList("stars", "desc", "language:java created:>" + getRequestDate(), page)
+            var currentQuery = if(query.isNullOrEmpty()) "language:java created:>" + getRequestDate() else  query+" language:java";
+            val call = ghServicesManager.getRepositoriesList("stars", "desc", currentQuery, page)
             call.enqueue(success = { response ->
                 val linkHeader = response.headers().get("Link")
-                hasNext = linkHeader!!.contains("rel=\"next\"")
+                if (linkHeader!=null) {
+                    hasNext = linkHeader.contains("rel=\"next\"")
+                }
                 isLoading = false
                 listener?.onReposReceived(response.body()?.items)
 
@@ -51,7 +52,7 @@ class NetworkManager {
             }, failure = { t ->
                 hasNext = false;
                 isLoading = false
-                Log.d("NetworkManager", t.localizedMessage);
+                Log.d(NetworkManager::class.simpleName, t.localizedMessage);
                 listener?.onReposReceived(null)
 
             })
@@ -64,13 +65,12 @@ class NetworkManager {
             val call = ghServicesManager.getRepoReadme(repo.owner.login, repo.name);
             call.enqueue(success = { response ->
                 isLoading = false
-                val readMeString = response.body()?.content
+                val readMeString = Base64.decode(response.body()?.content, Base64.DEFAULT).toString(Charset.defaultCharset());
                 listener?.onRepoReadMeReceved(readMeString)
             }, failure = { t ->
                 isLoading = false
-                Log.d("NetworkManager", t.localizedMessage);
+                Log.d(NetworkManager::class.simpleName, t.localizedMessage);
                 listener?.onRepoReadMeReceved(null)
-
             })
         }
     }
@@ -82,6 +82,10 @@ class NetworkManager {
         val date = calendar.time;
         val format = SimpleDateFormat("yyyy-MM-dd")
         return format.format(date)
+    }
+
+    fun setQuery(query: String?){
+        this.query = query;
     }
 
     interface ReposListListener {
