@@ -1,11 +1,13 @@
 package phoedo.ghtrending.networking
 
+import phoedo.ghtrending.model.GHReadMeItem
 import phoedo.ghtrending.model.GHRepoItem
 import phoedo.ghtrending.model.GHRepoResponse
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 /**
@@ -23,6 +25,11 @@ interface GHSevices {
                             @Query("q") query: String,
                             @Query("page") page: Int
     ): Call<GHRepoResponse>
+
+    @GET("repos/{user}/{repo}/readme")
+    fun getRepoReadme(@Path("user") user: String,
+                      @Path("repo") repo: String
+    ): Call<GHReadMeItem>
 
     companion object {
         fun create(): GHSevices {
