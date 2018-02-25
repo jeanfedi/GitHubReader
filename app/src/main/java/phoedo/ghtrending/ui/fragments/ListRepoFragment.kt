@@ -18,12 +18,13 @@ import phoedo.ghtrending.model.GHRepoItem
 import phoedo.ghtrending.networking.NetworkManager
 import phoedo.ghtrending.ui.activities.BaseActivity
 import phoedo.ghtrending.ui.activities.DetailActivity
+import phoedo.ghtrending.ui.activities.MainActivity
 import phoedo.ghtrending.ui.adapters.GHRecycleListAdapter
 
 /**
  * A placeholder fragment containing a simple view.
  */
-class ListRepoFragment : Fragment(), GHRecycleListAdapter.GHRecyclerViewListener, NetworkManager.ReposListListener {
+class ListRepoFragment : Fragment(), GHRecycleListAdapter.GHRecyclerViewListener, NetworkManager.ReposListListener, MainActivity.SearchListener {
 
     var networkManager = NetworkManager()
     var adapter: GHRecycleListAdapter? = null
@@ -44,7 +45,11 @@ class ListRepoFragment : Fragment(), GHRecycleListAdapter.GHRecyclerViewListener
         listView.adapter = adapter;
         progressBar.visibility = View.VISIBLE
         networkManager.getReposList(this);
-        return v
+        if (activity is MainActivity) {
+            (activity as MainActivity).searchListener = this
+        }
+
+            return v
     }
 
     override fun onItemSelected(item: GHRepoItem) {
@@ -65,6 +70,13 @@ class ListRepoFragment : Fragment(), GHRecycleListAdapter.GHRecyclerViewListener
         if (repos != null) {
             adapter?.addNewItems(repos)
         }
+    }
+
+    override fun onSearch(query: String?) {
+        networkManager.setQuery(query)
+        adapter?.clearData()
+        progressBar.visibility=View.VISIBLE
+        networkManager.getReposList(this)
     }
 }
 

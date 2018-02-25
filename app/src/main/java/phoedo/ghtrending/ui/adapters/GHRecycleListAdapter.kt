@@ -41,6 +41,11 @@ class GHRecycleListAdapter(private val context: Context, private val listener: G
         notifyDataSetChanged()
     }
 
+    fun clearData() {
+        items = ArrayList<GHRepoItem>();
+        notifyDataSetChanged()
+    }
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         @BindView(R.id.nameLabel)
         lateinit var nameLabel: TextView
