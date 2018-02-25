@@ -45,7 +45,9 @@ class NetworkManager {
             val call = ghServicesManager.getRepositoriesList("stars", "desc", "language:java created:>" + getRequestDate(), page)
             call.enqueue(success = { response ->
                 val linkHeader = response.headers().get("Link")
-                hasNext = linkHeader!!.contains("rel=\"next\"")
+                if (linkHeader!=null) {
+                    hasNext = linkHeader.contains("rel=\"next\"")
+                }
                 isLoading = false
                 listener?.onReposReceived(response.body()?.items)
 

@@ -14,7 +14,7 @@ import phoedo.ghtrending.model.GHRepoItem
 /**
  * Created by phoedo on 24/02/18.
  */
-class GHRecycleListAdapter(private val context: Context, private val listener: GHItemSelectedListener) : RecyclerView.Adapter<GHRecycleListAdapter.ViewHolder>() {
+class GHRecycleListAdapter(private val context: Context, private val listener: GHRecyclerViewListener) : RecyclerView.Adapter<GHRecycleListAdapter.ViewHolder>() {
     var items = mutableListOf<GHRepoItem>();
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
@@ -26,6 +26,9 @@ class GHRecycleListAdapter(private val context: Context, private val listener: G
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         holder?.populate(items[position])
         holder?.itemView?.setOnClickListener(View.OnClickListener { listener.onItemSelected(items[position]) })
+        if (position==items.size-1){
+            listener.onEndScroll();
+        }
     }
 
     override fun getItemCount(): Int {
@@ -59,8 +62,9 @@ class GHRecycleListAdapter(private val context: Context, private val listener: G
         }
     }
 
-    interface GHItemSelectedListener {
+    interface GHRecyclerViewListener {
         fun onItemSelected(item: GHRepoItem)
+        fun onEndScroll()
     }
 
 
