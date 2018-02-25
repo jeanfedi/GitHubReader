@@ -14,8 +14,12 @@ open class BaseActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRAOBJECTKEY = "extraobject"
+        const val NAMETRANSITION = "nametransition"
+        const val DESCRIPTIONTRANSITION = "descriptionTransitio"
+        const val STARSTRANSITION = "starstransition"
         private const val LISTFRAGMENTTAG = "listfragmenttag"
         private const val DETAILFRAGMENTTAG = "listfragmenttag"
+
     }
 
     var extraObject: Serializable? = null

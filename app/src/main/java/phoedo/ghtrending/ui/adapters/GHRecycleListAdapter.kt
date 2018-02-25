@@ -25,8 +25,8 @@ class GHRecycleListAdapter(private val context: Context, private val listener: G
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         holder?.populate(items[position])
-        holder?.itemView?.setOnClickListener(View.OnClickListener { listener.onItemSelected(items[position]) })
-        if (position==items.size-1){
+        holder?.itemView?.setOnClickListener(View.OnClickListener { listener.onItemSelected(items[position], holder) })
+        if (position == items.size - 1) {
             listener.onEndScroll();
         }
     }
@@ -62,13 +62,13 @@ class GHRecycleListAdapter(private val context: Context, private val listener: G
 
         fun populate(item: GHRepoItem) {
             nameLabel.setText(item.name)
-            starsLabel.setText(context.resources.getString(R.string.stars_label,item.stargazers_count))
+            starsLabel.setText(context.resources.getString(R.string.stars_label, item.stargazers_count))
             descriptionLabel.setText(item.description)
         }
     }
 
     interface GHRecyclerViewListener {
-        fun onItemSelected(item: GHRepoItem)
+        fun onItemSelected(item: GHRepoItem, holder: ViewHolder)
         fun onEndScroll()
     }
 

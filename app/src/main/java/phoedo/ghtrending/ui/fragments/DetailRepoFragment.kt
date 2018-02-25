@@ -1,7 +1,11 @@
 package phoedo.ghtrending.ui.fragments
 
+import android.annotation.TargetApi
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.view.ViewCompat
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +14,7 @@ import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.list_item_ghrepo.*
 import phoedo.ghtrending.R
 import phoedo.ghtrending.model.GHRepoItem
 import phoedo.ghtrending.networking.NetworkManager
@@ -47,6 +52,8 @@ class DetailRepoFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val v = inflater.inflate(R.layout.fragment_detail_repo, container, false)
         ButterKnife.bind(this, v)
+        ViewCompat.setTransitionName(nameLabel, BaseActivity.NAMETRANSITION)
+        ViewCompat.setTransitionName(starsLabel, BaseActivity.STARSTRANSITION)
 
         if (arguments.containsKey(BaseActivity.EXTRAOBJECTKEY)) {
             var extraObject = arguments.getSerializable(BaseActivity.EXTRAOBJECTKEY);
@@ -69,7 +76,7 @@ class DetailRepoFragment : Fragment() {
 
         networkManager.getRepoReadme(repoDetails!!, object : NetworkManager.RepoReadMeListener {
             override fun onRepoReadMeReceved(readme: String?) {
-                readmeContent.setText(readme)
+                readmeContent.setText(Html.fromHtml(readme))
             }
         })
 

@@ -3,8 +3,10 @@ package phoedo.ghtrending.ui.fragments
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v4.util.Pair
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -52,10 +54,14 @@ class ListRepoFragment : Fragment(), GHRecycleListAdapter.GHRecyclerViewListener
             return v
     }
 
-    override fun onItemSelected(item: GHRepoItem) {
+    override fun onItemSelected(item: GHRepoItem, holder: GHRecycleListAdapter.ViewHolder) {
         val goToDetail = Intent(activity, DetailActivity::class.java)
         goToDetail.putExtra(BaseActivity.EXTRAOBJECTKEY, item)
-        startActivity(goToDetail)
+
+        val transition1 = Pair.create(holder.nameLabel as View, BaseActivity.NAMETRANSITION)
+        val transition2 = Pair.create(holder.starsLabel as View, BaseActivity.STARSTRANSITION)
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, transition1, transition2)
+        startActivity(goToDetail,options.toBundle())
     }
 
     override fun onEndScroll() {

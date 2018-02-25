@@ -2,13 +2,9 @@ package phoedo.ghtrending.ui.activities
 
 import android.os.Bundle
 import android.view.Menu
-import phoedo.ghtrending.R
-import android.view.MenuInflater
-import android.support.v4.widget.SearchViewCompat.setSearchableInfo
-import android.content.Context.SEARCH_SERVICE
-import android.app.SearchManager
 import android.view.View
 import android.widget.SearchView
+import phoedo.ghtrending.R
 
 
 class MainActivity : BaseActivity() {
