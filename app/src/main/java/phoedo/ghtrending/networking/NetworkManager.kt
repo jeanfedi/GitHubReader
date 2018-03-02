@@ -65,7 +65,8 @@ class NetworkManager {
             val call = ghServicesManager.getRepoReadme(repo.owner.login, repo.name);
             call.enqueue(success = { response ->
                 isLoading = false
-                val readMeString = Base64.decode(response.body()?.content, Base64.DEFAULT).toString(Charset.defaultCharset());
+                var readMeString:String? = null;
+                if (response.body()!=null) readMeString = Base64.decode(response.body()?.content, Base64.DEFAULT).toString(Charset.defaultCharset())
                 listener?.onRepoReadMeReceved(readMeString)
             }, failure = { t ->
                 isLoading = false
