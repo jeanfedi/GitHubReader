@@ -5,9 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
+import kotlinx.android.synthetic.main.list_item_ghrepo.view.*
 import phoedo.ghtrending.R
 import phoedo.ghtrending.model.GHRepoItem
 
@@ -47,23 +45,11 @@ class GHRecycleListAdapter(private val context: Context, private val listener: G
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        @BindView(R.id.nameLabel)
-        lateinit var nameLabel: TextView
-
-        @BindView(R.id.starsLabel)
-        lateinit var starsLabel: TextView
-
-        @BindView(R.id.descriptionLabel)
-        lateinit var descriptionLabel: TextView
-
-        init {
-            ButterKnife.bind(this, itemView)
-        }
 
         fun populate(item: GHRepoItem) {
-            nameLabel.setText(item.name)
-            starsLabel.setText(context.resources.getString(R.string.stars_label, item.stargazers_count))
-            descriptionLabel.setText(item.description)
+            itemView.nameLabel.setText(item.name)
+            itemView.starsLabel.setText(context.resources.getString(R.string.stars_label, item.stargazers_count))
+            itemView.descriptionLabel.setText(item.description)
         }
     }
 
