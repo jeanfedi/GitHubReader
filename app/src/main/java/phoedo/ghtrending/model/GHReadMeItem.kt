@@ -1,5 +1,7 @@
 package phoedo.ghtrending.model
 
+import java.io.Serializable
+
 /**
  * Created by phoedo on 25/02/18.
  */
@@ -17,11 +19,10 @@ data class GHReadMeItem(
         val content: String?,
         val encoding: String?,
         val _links: Links?
-)
-
-
-data class Links(
-        val self: String?,
-        val git: String?,
-        val html: String?
-)
+) : Serializable {
+    data class Links(
+            val self: String?,
+            val git: String?,
+            val html: String?
+    ) : Serializable
+}

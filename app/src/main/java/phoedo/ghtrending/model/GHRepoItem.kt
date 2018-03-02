@@ -6,7 +6,7 @@ import java.io.Serializable
  * Created by phoedo on 24/02/18.
  */
 
-class GHRepoItem(
+data class GHRepoItem(
         val id: Int,
         val name: String,
         val full_name: String,
@@ -77,33 +77,33 @@ class GHRepoItem(
         val watchers: Int?,
         val default_branch: String?,
         val score: Double?
-) : Serializable
+) : Serializable {
+    data class Owner(
+            val login: String,
+            val id: Int,
+            val avatar_url: String,
+            val gravatar_id: String,
+            val url: String,
+            val html_url: String,
+            val followers_url: String,
+            val following_url: String,
+            val gists_url: String,
+            val starred_url: String,
+            val subscriptions_url: String,
+            val organizations_url: String,
+            val repos_url: String,
+            val events_url: String,
+            val received_events_url: String,
+            val type: String,
+            val site_admin: Boolean
+    ) : Serializable
 
-class Owner(
-        val login: String,
-        val id: Int,
-        val avatar_url: String,
-        val gravatar_id: String,
-        val url: String,
-        val html_url: String,
-        val followers_url: String,
-        val following_url: String,
-        val gists_url: String,
-        val starred_url: String,
-        val subscriptions_url: String,
-        val organizations_url: String,
-        val repos_url: String,
-        val events_url: String,
-        val received_events_url: String,
-        val type: String,
-        val site_admin: Boolean
-) : Serializable
+    data class License(
+            val key: String?,
+            val name: String?,
+            val spdx_id: String?,
+            val url: String?
+    ) : Serializable
 
-
-data class License(
-        val key: String?,
-        val name: String?,
-        val spdx_id: String?,
-        val url: String?
-) : Serializable
+}
 
