@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewCompat
 import android.text.Html
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -76,7 +77,9 @@ class DetailRepoFragment : Fragment() {
 
         networkManager.getRepoReadme(repoDetails!!, object : NetworkManager.RepoReadMeListener {
             override fun onRepoReadMeReceved(readme: String?) {
-                readmeContent.setText(Html.fromHtml(readme))
+                if (!TextUtils.isEmpty(readme)) {
+                    readmeContent.setText(Html.fromHtml(readme))
+                }
             }
         })
 
